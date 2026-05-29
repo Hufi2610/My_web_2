@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RF Gun Tutorial</title>
+
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: #f5f5f5;
+      min-height: 100vh;
+      padding-top: 80px;
+      padding-bottom: 90px;
+    }
+
+    /* ===== DESKTOP HEADER ===== */
+
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 65px;
+      background: #111827;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 999;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    }
+
+    .logo {
+      color: white;
+      font-size: 22px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .menu {
+      display: flex;
+      list-style: none;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .menu li a {
+      text-decoration: none;
+      color: white;
+      font-size: 15px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      transition: 0.3s;
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .menu li a:hover {
+      background: rgba(255,255,255,0.12);
+    }
+
+    /* ===== MOBILE HEADER ===== */
+
+    .mobile-header {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 65px;
+      background: #111827;
+      align-items: center;
+      padding: 0 20px;
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      z-index: 999;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+      cursor: pointer;
+    }
+
+    /* ===== MOBILE FOOTER ===== */
+
+    .mobile-footer {
+      display: none;
+    }
+
+    /* ===== CONTENT ===== */
+
+    .container {
+      padding: 30px;
+    }
+
+    .guide-section {
+      margin-bottom: 28px;
+      padding: 22px;
+      border-radius: 18px;
+      background: #ffffff;
+      border-left: 6px solid #111827;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .guide-section h3 {
+      margin-bottom: 16px;
+      font-size: 22px;
+      color: #111827;
+    }
+
+    .guide-section h4 {
+      margin-top: 24px;
+      margin-bottom: 12px;
+      color: #111827;
+    }
+
+    .guide-section ul {
+      padding-left: 20px;
+    }
+
+    .guide-section li {
+      margin-bottom: 10px;
+      color: #374151;
+      line-height: 1.6;
+    }
+
+    .guide-section p {
+      color: #374151;
+      line-height: 1.6;
+    }
+
+    .highlight {
+      background: #111827;
+      color: white;
+      padding: 3px 10px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    /* ===== WARNING BOX ===== */
+
+    .warning-box {
+
+      margin-top: 24px;
+      margin-bottom: 24px;
+      padding: 16px 18px;
+
+      background: linear-gradient(135deg, #fff7ed, #ffedd5);
+
+      border-left: 6px solid #ea580c;
+      border-top: 1px solid #fdba74;
+      border-right: 1px solid #fdba74;
+      border-bottom: 1px solid #fdba74;
+
+      border-radius: 14px;
+
+      color: #9a3412;
+      font-weight: bold;
+      line-height: 1.7;
+
+      box-shadow: 0 6px 18px rgba(234,88,12,0.12);
+
+      position: relative;
+      z-index: 1;
+
+    }
+
+    .warning-box::before {
+
+      content: "⚠️";
+      margin-right: 10px;
+      font-size: 18px;
+
+    }
+
+    .next-step {
+      margin-top: 18px;
+      font-weight: bold;
+      color: #111827;
+      font-size: 16px;
+    }
+
+    /* ===== IMAGE ===== */
+
+    .image-placeholder {
+
+      width: 100%;
+      margin: 24px auto;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 2px dashed #cbd5e1;
+      background: #f8fafc;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      position: relative;
+      z-index: 0;
+
+    }
+
+    /* ===== ẢNH NGANG ===== */
+
+    .image-horizontal {
+      max-width: 470px;
+    }
+
+    /* ===== ẢNH DỌC ===== */
+
+    .image-vertical {
+      max-width: 260px;
+    }
+
+    .image-placeholder img {
+
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: contain;
+
+    }
+
+    /* ===== CORE FLOW ===== */
+
+    .core-flow-box {
+      margin-top: 18px;
+      margin-bottom: 28px;
+      padding: 24px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, #111827, #1f2937);
+      color: white;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.18);
+      border: 2px solid #374151;
+    }
+
+    .core-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-align: center;
+      letter-spacing: 1px;
+    }
+
+    .core-flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .core-flow span {
+      background: rgba(255,255,255,0.12);
+      padding: 14px 18px;
+      border-radius: 14px;
+      font-weight: bold;
+      font-size: 15px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .flow-arrow {
+      font-size: 24px;
+      font-weight: bold;
+      color: #fbbf24;
+    }
+
+    .core-command {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: bold;
+      color: #f9fafb;
+      line-height: 1.8;
+    }
+
+    .command-highlight {
+      display: inline-block;
+      background: #fbbf24;
+      color: #111827;
+      padding: 6px 14px;
+      border-radius: 12px;
+      margin: 0 6px;
+      font-size: 17px;
+      font-weight: bold;
+      box-shadow: 0 4px 12px rgba(251,191,36,0.35);
+    }
+
+
+    .special-case-box {
+    
+      margin-top: 36px;
+      padding: 24px;
+      border-radius: 24px;
+    
+      background: linear-gradient(135deg,#fff7ed,#ffffff);
+    
+      border: 2px solid #fdba74;
+    
+      box-shadow: 0 10px 25px rgba(251,146,60,0.12);
+    
+    }
+
+    .special-title {
+    
+      font-size: 26px;
+      font-weight: bold;
+      text-align: center;
+    
+      color: #9a3412;
+    
+      margin-bottom: 28px;
+    
+    }
+
+    .special-card {
+    
+      background: white;
+    
+      border-radius: 20px;
+    
+      padding: 22px;
+    
+      margin-bottom: 28px;
+    
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    
+    }
+
+    .warning-short {
+    
+      border-left: 8px solid #f59e0b;
+    
+    }
+
+    .danger-short {
+    
+      border-left: 8px solid #dc2626;
+    
+    }
+
+    .special-header {
+    
+      font-size: 22px;
+      font-weight: bold;
+    
+      color: #92400e;
+    
+      margin-bottom: 14px;
+    
+    }
+
+    .danger-text {
+    
+      color: #b91c1c;
+    
+    }
+
+    .special-desc {
+    
+      margin-bottom: 18px;
+      line-height: 1.7;
+    
+      color: #374151;
+    
+    }
+
+    .special-code {
+    
+      display: inline-block;
+    
+      background: #f59e0b;
+      color: white;
+    
+      padding: 4px 12px;
+    
+      border-radius: 10px;
+    
+      font-weight: bold;
+    
+      margin-left: 4px;
+    
+    }
+
+    .red-code {
+    
+      background: #dc2626;
+    
+    }
+
+    .special-note {
+    
+      margin-top: 18px;
+    
+      padding: 14px 16px;
+    
+      border-radius: 14px;
+    
+      background: #fffbeb;
+    
+      color: #92400e;
+    
+      font-weight: bold;
+    
+      border: 1px solid #fde68a;
+    
+      line-height: 1.6;
+    
+    }
+
+    .success-box {
+    
+      margin-top: 20px;
+    
+      padding: 16px 18px;
+    
+      border-radius: 16px;
+    
+      background: linear-gradient(135deg,#ecfdf5,#d1fae5);
+    
+      color: #065f46;
+    
+      font-weight: bold;
+    
+      line-height: 1.7;
+    
+      border-left: 6px solid #10b981;
+    
+    }
+
+    .danger-box {
+    
+      margin-top: 20px;
+    
+      padding: 16px 18px;
+    
+      border-radius: 16px;
+    
+      background: linear-gradient(135deg,#fef2f2,#fee2e2);
+    
+      color: #991b1b;
+    
+      font-weight: bold;
+    
+      line-height: 1.7;
+    
+      border-left: 6px solid #dc2626;
+    
+    }
+
+    /* ===== MOBILE ===== */
+
+    @media (max-width: 768px) {
+    
+      .special-title {
+      
+        font-size: 22px;
+      
+      }
+    
+      .special-header {
+      
+        font-size: 19px;
+      
+      }
+    
+      .special-card {
+      
+        padding: 18px;
+      
+      }
+    
+    }
+
+    /* ===== MOBILE ===== */
+
+    @media (max-width: 768px) {
+
+      body {
+        padding-top: 80px;
+        padding-bottom: 80px;
+      }
+
+      .header {
+        display: none;
+      }
+
+      .mobile-header {
+        display: flex;
+      }
+
+      .mobile-footer {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 70px;
+        background: #111827;
+        justify-content: space-evenly;
+        align-items: center;
+        z-index: 999;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.15);
+      }
+
+      .mobile-footer a {
+        color: white;
+        text-decoration: none;
+        font-size: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .mobile-footer span {
+        font-size: 20px;
+      }
+
+      .container {
+        padding: 18px;
+      }
+
+      .image-placeholder {
+
+        width: 100%;
+        max-width: 100% !important;
+        margin: 18px auto;
+
+      }
+
+      .image-placeholder img {
+
+        width: 100%;
+        height: auto;
+        max-height: none;
+
+      }
+
+      .core-flow {
+        flex-direction: column;
+      }
+
+      .flow-arrow {
+        transform: rotate(90deg);
+      }
+
+      .core-title {
+        font-size: 18px;
+      }
+
+      .core-flow span {
+        width: 100%;
+        text-align: center;
+      }
+
+      .command-highlight {
+        display: block;
+        margin: 10px auto;
+        width: fit-content;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- DESKTOP HEADER -->
+
+  <div class="header">
+
+    <div class="logo">
+      RF Gun
+    </div>
+
+    <ul class="menu">
+
+      <li>
+        <a href="#pick-section">
+          <span>🗂️</span>
+          Pick
+        </a>
+      </li>
+
+      <li>
+        <a href="#pack-section">
+          <span>📮</span>
+          Pack
+        </a>
+      </li>
+
+      <li>
+        <a href="#bintobin-section">
+          <span>🔄</span>
+          Bin to Bin
+        </a>
+      </li>
+
+      <li>
+        <a href="#putaway-section">
+          <span>📥</span>
+          Putaway
+        </a>
+      </li>
+
+    </ul>
+
+  </div>
+
+  <!-- MOBILE HEADER -->
+
+  <div class="mobile-header">
+    RF Gun
+  </div>
+
+  <!-- CONTENT -->
+
+  <div class="container">
+
+    <!-- SECTION 1 -->
+
+    <div class="guide-section">
+
+      <h3>1. QUY ƯỚC CHUNG</h3>
+
+      <ul>
+
+        <li>
+          <span class="highlight">ENTER</span>
+          → Xác nhận thao tác.
+        </li>
+
+        <li>
+          <span class="highlight">F7</span>
+          → Quay lại.
+        </li>
+
+        <li>
+          <span class="highlight">F4</span>
+          → Next.
+        </li>
+
+      </ul>
+
+      <div class="warning-box">
+        Kiểm tra dữ liệu trước khi thao tác.
+      </div>
+
+    </div>
+
+    <!-- LOGIN -->
+
+    <div class="guide-section">
+
+      <h3>2. LOGIN</h3>
+
+      <p><strong>LOGIN-01</strong></p>
+
+      <ul>
+        <li>Nhập <span class="special-code">User</span> và <span class="special-code">Password</span></li>
+        <li>Nhấn <span class="highlight">Enter</span></li>
+      </ul>
+
+      <p style="margin-top:20px;">
+        <strong>LOGIN-02</strong>
+      </p>
+
+      <div class="image-placeholder image-horizontal">
+        <img src="img/Login2-1.png" alt="Login2-1">
+      </div>
+
+      <ul>
+        <li>Whse No: <span class="highlight">0071</span></li>
+        <li>Resource: <span class="highlight">User</span></li>
+        <li>DefPresDvc: <span class="highlight">HHS</span></li>
+      </ul>
+
+      <div class="warning-box">
+        Kiểm tra warehouse 0071
+      </div>
+
+      <p class="next-step">
+        Nhấn <span class="highlight">Enter</span> → Hiện ra cửa sổ
+      </p>
+
+      <div class="image-placeholder image-vertical">
+        <img src="img/Login2-2.png" alt="Login2-2">
+      </div>
+
+    </div>
+
+    <!-- PICK SECTION -->
+
+    <div id="pick-section" class="guide-section">
+
+      <h3>3. PICK</h3>
+
+      <div class="core-flow-box">
+
+        <div class="core-title">
+          🔥 TIẾN TRÌNH PICK CỐT LÕI
+        </div>
+
+        <div class="core-flow">
+
+          <span>(4) Outbound Processes</span>
+
+          <div class="flow-arrow">→</div>
+
+          <span>(1) Picking</span>
+
+          <div class="flow-arrow">→</div>
+
+          <span>(2) System Guided by Queue</span>
+
+        </div>
+
+        <div class="core-command">
+
+          Nhập lệnh:
+
+          <span class="command-highlight">
+            RT
+          </span>
+
+          hoặc
+
+          <span class="command-highlight">
+            2STEPPICK
+          </span>
+
+        </div>
+
+      </div>
+
+      <h4>3.1 PICK FLOW CHUNG</h4>
+
+      <p><strong>PICK-01</strong></p>
+
+      <p>
+        Sau khi xác nhận sẽ hiện cửa sổ bên dưới.
+        Tìm xuống cuối cửa sổ → Nhấn <span class="highlight">F4</span>.
+      </p>
+
+      <div class="image-placeholder image-vertical">
+        <img src="img/Pick1.png" alt="Pick1">
+      </div>
+
+      <p><strong>PICK-02</strong></p>
+
+      <ul>
+
+        <li>
+          DHU trống → Nhấn <span class="highlight">F7</span> → <span class="special-code">PICK-03</span>
+        </li>
+
+        <li>
+          DHU có giá trị → <span class="special-code">PICK-04</span>
+        </li>
+
+      </ul>
+
+      <div class="image-placeholder image-vertical">
+        <img src="img/Pick2.png" alt="Pick2">
+      </div>
+
+      <p><strong>PICK-03</strong></p>
+
+      <ul>
+
+        <li>Scan HU mới tại ô <span class="highlight">(1)</span></li>
+
+        <li>Scan MMPALLET tại ô <span class="highlight">(2)</span></li>
+
+        <li>Nhấn <span class="highlight">ENTER</span> → Nhấn <span class="highlight">F4</span></li>
+
+      </ul>
+
+      <div class="image-placeholder image-vertical">
+        <img src="img/Pick3.png" alt="Pick3">
+      </div>
+
+      <p><strong>PICK-04</strong></p>
+
+      <ul>
+
+        <li>Scan HU tại vị trí lấy hàng</li>
+
+        <li>Nhập số lượng vào AQty</li>
+
+        <li>Nhấn <span class="highlight">ENTER</span></li>
+
+      </ul>
+
+      <div class="warning-box">
+        Kiểm tra kỹ mã hàng và số lượng đủ với lệnh.
+      </div>
+
+      <div class="image-placeholder image-vertical">
+        <img src="img/Pick4.png" alt="Pick4">
+      </div>
+
+      <div class="special-case-box">
+      
+        <div class="special-title">
+          🚨 TRƯỜNG HỢP ĐẶC BIỆT
+        </div>
+      
+        <!-- THIẾU HÀNG -->
+      
+        <div class="special-card warning-short">
+        
+          <div class="special-header">
+            ⚠️ TRƯỜNG HỢP THIẾU HÀNG
+          </div>
+        
+          <p class="special-desc">
+            Khi số lượng thực tế nhỏ hơn số lượng hệ thống yêu cầu.
+          </p>
+        
+          <div class="image-placeholder image-vertical">
+            <img src="img/BIDP1.png" alt="BIDP1">
+          </div>
+        
+          <ul>
+          
+            <li>
+              Tại <span class="highlight">(1)</span> scan 
+              <span class="special-code">BIDP</span>
+            </li>
+          
+            <li>
+              Nhấn <span class="highlight">ENTER</span> → Hệ thống hiển thị cửa sổ tiếp theo
+            </li>
+          
+            <li>
+              Tại <span class="highlight">AQty</span> nhập số lượng thực tế
+            </li>
+          
+            <li>
+              Tại <span class="highlight">DQty</span> nhập số lượng thực tế
+            </li>
+          
+            <li>
+              Nhấn <span class="highlight">ENTER</span> để xác nhận
+            </li>
+          
+          </ul>
+        
+          <div class="special-note">
+            📌 Lưu ý: (2) có thể hiển thị đơn vị theo CS hoặc EA.
+          </div>
+        
+          <div class="image-placeholder image-vertical">
+            <img src="img/BIDP2.png" alt="BIDP2">
+          </div>
+        
+          <div class="success-box">
+            ✅ Sau khi xác nhận, số lượng sẽ được cập nhật lại trên hệ thống.
+            Tiếp tục các bước còn lại để hoàn thành lệnh.
+          </div>
+          
+          <div class="image-placeholder image-vertical">
+            <img src="img/BIDP3.png" alt="BIDP3">
+          </div>
+          
+        </div>
+      
+        <!-- KHÔNG CÓ HÀNG -->
+      
+        <div class="special-card danger-short">
+        
+          <div class="special-header danger-text">
+            ❌ TRƯỜNG HỢP KHÔNG CÓ HÀNG
+          </div>
+        
+          <p class="special-desc">
+            Khi vị trí hoàn toàn không còn hàng để Pick hoặc Pack.
+          </p>
+        
+          <div class="image-placeholder image-vertical">
+            <img src="img/BIDF1.png" alt="BIDF1">
+          </div>
+        
+          <ul>
+          
+            <li>
+              Tại <span class="highlight">(1)</span> scan 
+              <span class="special-code red-code">BIDF</span>
+            </li>
+          
+            <li>
+              Nhấn <span class="highlight">ENTER</span> để xác nhận
+            </li>
+          
+          </ul>
+        
+          <div class="danger-box">
+            ⛔ Kiểm tra thực tế thật kỹ trước khi xác nhận BIDF để tránh lệch tồn kho.
+          </div>
+        
+        </div>
+      
+      </div>
+
+      <h4>3.2 RT FLOW</h4>
+
+      <p><strong>RT-01</strong></p>
+
+      <ul>
+
+        <li>Sau khi xác nhận AQty</li>
+
+        <li>Scan <span class="special-code">2ST-ZONE</span> tại <span class="highlight">(1)</span></li>
+
+        <li>Scan <span class="special-code">VN02</span> tại <span class="highlight">(2)</span></li>
+
+        <li>Nhấn <span class="highlight">ENTER</span> để xác nhận</li>
+
+      </ul>
+
+      <div class="image-placeholder image-vertical">
+        <img src="img/RT1.png" alt="RT FLOW">
+      </div>
+
+      <h4>3.3 2STEPPICK FLOW</h4>
+
+      <p><strong>2S-01</strong></p>
+
+      <ul>
+
+        <li>Sau khi xác nhận AQty</li>
+
+        <li>Hệ thống chuyển sang lệnh tiếp theo</li>
+
+      </ul>
+
+      <p><strong>2S-02</strong></p>
+
+      <ul>
+
+        <li>Nhấn <span class="highlight">F7</span> hai lần</li>
+
+        <li>Chọn <span class="special-code">YES</span></li>
+
+      </ul>
+
+      <p><strong>2S-03</strong></p>
+
+      <ul>
+
+        <li>Scan <span class="special-code">2ST-ZONE</span> tại <span class="highlight">(1)</span></li>
+
+        <li>Scan <span class="special-code">VN02</span> tại <span class="highlight">(2)</span></li>
+
+        <li>Nhấn <span class="highlight">ENTER</span> xác nhận</li>
+
+      </ul>
+
+      <div class="image-placeholder image-vertical">
+        <img src="img/2Steppick1.png" alt="2STEP FLOW">
+      </div>
+
+    </div>
+
+    <!-- PACK SECTION -->
+
+    <div id="pack-section" class="guide-section">
+
+      <h3>4. PACK</h3>
+
+      <div class="core-flow-box">
+
+        <div class="core-title">
+          📮 TIẾN TRÌNH PACK CỐT LÕI
+        </div>
+
+        <div class="core-flow">
+
+          <span>(4) Outbound Processes</span>
+
+          <div class="flow-arrow">→</div>
+
+          <span>(1) Picking</span>
+
+          <div class="flow-arrow">→</div>
+
+          <span>(5) Picking by HU</span>
+
+        </div>
+
+        <div class="core-command">
+
+          Scan HU → ENTER
+
+        </div>
+
+      </div>
+
+      <div class="warning-box">
+        Đối với pallet full: nếu HU pick không scan được, tìm HU tổng của pallet và tiếp tục thao tác.
+      </div>
+
+      <h4>4.1 PACK FLOW</h4>
+
+      <p><strong>PACK-01</strong></p>
+
+      <p>
+        Sau khi xác nhận sẽ hiện cửa sổ tiếp theo.
+        Tìm xuống cuối cửa sổ → Nhấn <span class="highlight">F4</span>.
+      </p>
+
+      <div class="image-placeholder image-vertical">
+        <img src="img/Pack1.png" alt="Pack1">
+      </div>
+
+      <p><strong>PACK-02</strong></p>
+
+      <ul>
+
+        <li>
+          DHU trống → Nhấn <span class="highlight">F7</span> để quay lại → Thực hiện <span class="special-code">PACK-03</span>
+        </li>
+
+        <li>
+          DHU có giá trị → Thực hiện <span class="special-code">PACK-04</span>
+        </li>
+
+      </ul>
+
+      <div class="image-placeholder image-vertical">
+        <img src="img/Pack2.png" alt="Pack2">
+      </div>
+
+      <p><strong>PACK-03</strong></p>
+
+      <ul>
+
+        <li>Scan HU mới tại ô <span class="highlight">(1)</span></li>
+
+        <li>Scan <span class="special-code">MMPALLET</span> tại ô <span class="highlight">(2)</span></li>
+
+        <li>Nhấn <span class="highlight">ENTER</span> → Nhấn <span class="highlight">F4</span></li>
+
+      </ul>
+
+      <div class="image-placeholder image-vertical">
+        <img src="img/Pack3.png" alt="Pack3">
+      </div>
+
+      <p><strong>PACK-04</strong></p>
+
+      <ul>
+
+        <li>Scan HU đang tiến hành Pack</li>
+
+        <li>Nhập số lượng ở AQty</li>
+
+        <li>Nhấn <span class="highlight">ENTER</span></li>
+
+      </ul>
+
+      <div class="warning-box">
+        Kiểm tra đúng HU và số lượng trước khi xác nhận Pack.
+      </div>
+
+      <div class="image-placeholder image-vertical">
+        <img src="img/Pack4.png" alt="Pack4">
+      </div>
+
+      <p><strong>PACK-05</strong></p>
+
+      <ul>
+
+        <li>
+          Tại <span class="highlight">(1)</span> nhập lại giá trị ô trước đó → Ghi lại giá trị lên Pack ID
+        </li>
+
+        <li>
+          Tại <span class="highlight">(2)</span> scan <span class="special-code">VN02</span>
+        </li>
+
+        <li>
+          Nhấn <span class="highlight">ENTER</span>
+        </li>
+
+      </ul>
+
+      <div class="image-placeholder image-vertical">
+        <img src="img/Pack5.png" alt="Pack5">
+      </div>
+
+      <div class="warning-box">
+        Nếu HU pick vẫn còn hàng: Scan lại HU pick và lặp lại thao tác cho đến khi HU hết hàng.
+      </div>
+          <!-- ========================= -->
+      <!-- SPECIAL CASE SECTION -->
+      <!-- Thêm bên dưới PICK-04 hoặc cuối PACK FLOW -->
+      <!-- ========================= -->
+
+      <div class="special-case-box">
+      
+        <div class="special-title">
+          🚨 TRƯỜNG HỢP ĐẶC BIỆT
+        </div>
+      
+        <!-- THIẾU HÀNG -->
+      
+        <div class="special-card warning-short">
+        
+          <div class="special-header">
+            ⚠️ TRƯỜNG HỢP THIẾU HÀNG
+          </div>
+        
+          <p class="special-desc">
+            Khi số lượng thực tế nhỏ hơn số lượng hệ thống yêu cầu.
+          </p>
+        
+          <div class="image-placeholder image-vertical">
+            <img src="img/BIDP1.png" alt="BIDP1">
+          </div>
+        
+          <ul>
+          
+            <li>
+              Tại <span class="highlight">(1)</span> scan 
+              <span class="special-code">BIDP</span>
+            </li>
+          
+            <li>
+              Nhấn <span class="highlight">ENTER</span> → Hệ thống hiển thị cửa sổ tiếp theo
+            </li>
+          
+            <li>
+              Tại <span class="highlight">AQty</span> nhập số lượng thực tế
+            </li>
+          
+            <li>
+              Tại <span class="highlight">DQty</span> nhập số lượng thực tế
+            </li>
+          
+            <li>
+              Nhấn <span class="highlight">ENTER</span> để xác nhận
+            </li>
+          
+          </ul>
+        
+          <div class="special-note">
+            📌 Lưu ý: (2) có thể hiển thị đơn vị theo CS hoặc EA.
+          </div>
+        
+          <div class="image-placeholder image-vertical">
+            <img src="img/BIDP2.png" alt="BIDP2">
+          </div>
+        
+          <div class="success-box">
+            ✅ Sau khi xác nhận, số lượng sẽ được cập nhật lại trên hệ thống.
+            Tiếp tục các bước còn lại để hoàn thành lệnh.
+          </div>
+          
+          <div class="image-placeholder image-vertical">
+            <img src="img/BIDP3.png" alt="BIDP3">
+          </div>
+
+        </div>
+      
+        <!-- KHÔNG CÓ HÀNG -->
+      
+        <div class="special-card danger-short">
+        
+          <div class="special-header danger-text">
+            ❌ TRƯỜNG HỢP KHÔNG CÓ HÀNG
+          </div>
+        
+          <p class="special-desc">
+            Khi vị trí hoàn toàn không còn hàng để Pick hoặc Pack.
+          </p>
+        
+          <div class="image-placeholder image-vertical">
+            <img src="img/BIDF1.png" alt="BIDF1">
+          </div>
+        
+          <ul>
+          
+            <li>
+              Tại <span class="highlight">(1)</span> scan 
+              <span class="special-code red-code">BIDF</span>
+            </li>
+          
+            <li>
+              Nhấn <span class="highlight">ENTER</span> để xác nhận
+            </li>
+          
+          </ul>
+        
+          <div class="danger-box">
+            ⛔ Kiểm tra thực tế thật kỹ trước khi xác nhận BIDF để tránh lệch tồn kho.
+          </div>
+        
+        </div>
+      
+      </div>
+
+   </div>
+        
+    <!-- BIN TO BIN SECTION -->
+        
+    <div id="bintobin-section" class="guide-section">
+
+      <h3>5. BIN TO BIN</h3>
+
+      <div class="core-flow-box">
+
+        <div class="core-title">
+          🔄 TIẾN TRÌNH BIN TO BIN CỐT LÕI
+        </div>
+
+        <div class="core-flow">
+
+          <span>(5) Internal Processes</span>
+
+          <div class="flow-arrow">→</div>
+
+          <span>(2) Adhoc WT Creation</span>
+
+          <div class="flow-arrow">→</div>
+
+          <span>(3) Create and Confirm HU WT</span>
+
+        </div>
+
+        <div class="core-command">
+
+          Scan HU → Nhập <span class="command-highlight">9999</span> tại PTyp → ENTER
+
+        </div>
+
+      </div>
+
+      <div class="warning-box">
+        Kiểm tra đúng HU, đúng vị trí nguồn và vị trí đích trước khi move pallet.
+      </div>
+
+      <h4>5.1 BIN TO BIN FLOW</h4>
+
+      <p><strong>BIN-01</strong></p>
+
+      <ul>
+
+        <li>Scan HU vào ô ID</li>
+
+        <li>Nhập <span class="special-code">9999</span> ở ô PTyp</li>
+
+        <li>Nhấn <span class="highlight">ENTER</span></li>
+
+      </ul>
+
+
+      <p><strong>BIN-02</strong></p>
+
+      <ul>
+
+        <li>SBin là vị trí hiện tại của HU</li>
+
+        <li>Dbin scan vị trí muốn move vào</li>
+
+        <li>DHU scan lại HU của pallet muốn move</li>
+
+        <li>Nhấn <span class="highlight">ENTER</span></li>
+
+      </ul>
+
+      <div class="image-placeholder image-vertical">
+        <img src="img/Bin1.png" alt="Bin1">
+      </div>
+
+      <p><strong>BIN-03</strong></p>
+
+      <ul>
+
+        <li>Tại <span class="highlight">(1)</span> scan lại vị trí</li>
+
+        <li>Tại <span class="highlight">(1)</span> scan lại HU</li>
+
+        <li>Nhấn <span class="highlight">ENTER</span></li>
+
+      </ul>
+
+      <div class="warning-box">
+        Sau khi xác nhận move, kiểm tra lại vị trí pallet thực tế để tránh lệch tồn kho.
+      </div>
+      
+      <div class="image-placeholder image-vertical">
+        <img src="img/Bin2.png" alt="Bin2">
+      </div>
+
+    </div>
+    
+    <!-- PUTAWAY SECTION -->
+
+<div id="putaway-section" class="guide-section">
+
+  <h3>6. PUTAWAY</h3>
+
+  <div class="core-flow-box">
+
+    <div class="core-title">
+      📥 TIẾN TRÌNH PUTAWAY CỐT LÕI
+    </div>
+
+    <div class="core-flow">
+
+      <span>(3) Inbound Processes</span>
+
+      <div class="flow-arrow">→</div>
+
+      <span>(3) Putaway</span>
+
+      <div class="flow-arrow">→</div>
+
+      <span>(1) Putaway by HU</span>
+
+    </div>
+
+    <div class="core-command">
+
+      Scan HU → Scan vị trí đích → ENTER
+
+    </div>
+
+  </div>
+
+  <div class="warning-box">
+    Kiểm tra đúng vị trí Putaway trước khi xác nhận để tránh sai lệch tồn kho.
+  </div>
+
+      <h4>6.1 PUTAWAY FLOW</h4>
+
+      <p><strong>PUT-01</strong></p>
+
+      <ul>
+      
+        <li>Chọn Putaway by HU</li>
+      
+        <li>Scan HU</li>
+      
+        <li>Nhấn <span class="highlight">ENTER</span></li>
+      
+      </ul>
+    
+      <div class="image-placeholder image-vertical">
+        <img src="img/Put1.png" alt="Put1">
+      </div>
+    
+      <p><strong>PUT-02</strong></p>
+    
+      <ul>
+      
+        <li>Tại <span class="highlight">(1)</span> scan vị trí muốn di chuyển vào</li>
+      
+        <li>Nhấn <span class="highlight">ENTER</span> để xác nhận</li>
+      
+      </ul>
+    
+      <div class="warning-box">
+        Đảm bảo pallet đã được đặt đúng vị trí thực tế sau khi Putaway hoàn tất.
+      </div>
+    
+    </div>
+
+  </div>
+
+
+  <!-- MOBILE FOOTER -->
+
+  <div class="mobile-footer">
+
+    <a href="#pick-section">
+      <span>🗂️</span>
+      Pick
+    </a>
+
+    <a href="#pack-section">
+      <span>📮</span>
+      Pack
+    </a>
+
+    <a href="#bintobin-section">
+      <span>🔄</span>
+      Move
+    </a>
+
+    <a href="#putaway-section">
+      <span>📥</span>
+      Put
+    </a>
+
+  </div>
+
+  <script>
+
+    function scrollToTop() {
+
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+
+    }
+
+    document
+      .querySelectorAll('.logo, .mobile-header')
+      .forEach(el => {
+
+        el.addEventListener('click', scrollToTop);
+
+      });
+
+  </script>
+
+</body>
+</html>
